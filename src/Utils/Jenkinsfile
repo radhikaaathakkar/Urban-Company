@@ -1,0 +1,30 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                script {
+                    // Install npm dependencies
+                    sh 'npm install'
+
+                    // Build the React project
+                    sh 'npm run build'
+
+                    // Build the Docker image
+                    docker.build('urban-company-react', '-f Dockerfile.prod .')
+                }
+            }
+        }
+        stage('Push') {
+            steps {
+                script {
+                    // Push the Docker image to the registry
+                    docker.withRegistry('https://docker-registry-url', 'docker-registry-credentials-id') {
+                        docker.image('urban-company-react').push('latest')
+                    }
+                }
+            }
+        }
+    }
+}
