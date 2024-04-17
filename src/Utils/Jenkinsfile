@@ -20,7 +20,7 @@ pipeline {
             steps {
                 script {
                     // Push the Docker image to the registry
-                    docker.withRegistry('https://docker-registry-url', 'docker-registry-credentials-id') {
+                    docker.withRegistry('https://registry.hub.docker.com/repository/docker/radhikathakkar11/applieddevops/general', 'radhikathakkar11') {
                         docker.image('urban-company-react').push('latest')
                     }
                 }
